@@ -76,9 +76,9 @@ Veri Yükleme → Veri Temizleme → Kodlama → Bölme (70/15/15) → Ölçekle
 | Model | Accuracy | Precision | Recall | F1 |
 |---|:---:|:---:|:---:|:---:|
 | Taban çizgisi (herkese "kalır") | 0.735 | – | 0.000 | – |
-| k-NN (k=21) | 0.796 | 0.636 | 0.585 | 0.610 |
-| **Karar Ağacı (max_depth=5)** ⭐ | **0.811** | 0.654 | **0.645** | **0.649** |
-| Random Forest | 0.803 | **0.687** | 0.505 | 0.582 |
+| **k-NN (k=21)** ⭐ | 0.787 | 0.596 | **0.607** | **0.602** |
+| Karar Ağacı (max_depth=5) | 0.786 | 0.608 | 0.543 | 0.574 |
+| Random Forest | **0.796** | **0.647** | 0.511 | 0.571 |
 
 ### 💡 Neden Recall ve F1?
 
@@ -87,13 +87,20 @@ Veri Yükleme → Veri Temizleme → Kodlama → Bölme (70/15/15) → Ölçekle
 | **FP** (yalancı alarm) | Kalacak müşteriye "gidecek" denir | Boşuna indirim verilir → *küçük maliyet* |
 | **FN** (kaçırılan müşteri) | Gidecek müşteriye "kalacak" denir | Müşteri kaybedilir → **büyük maliyet** |
 
-FN daha maliyetli olduğu için model **Recall ve F1**'e göre seçildi.
-Dikkat: Hiçbir şey öğrenmeyen taban çizgisi modeli bile **%73,5 accuracy** alıyor. Bu, dengesiz veride accuracy'nin tek başına yanıltıcı olduğunu gösteriyor.
+FN daha maliyetli olduğu için model **Recall ve F1**'e göre seçildi: **k-NN (k=21)**.
 
-### 🧩 Karmaşıklık Matrisi (Test)
+📌 **Önemli bulgu:** Accuracy'ye bakılsaydı Random Forest seçilirdi (0.796).
+Ancak Random Forest ayrılan müşterilerin yaklaşık **yarısını kaçırıyor** (Recall 0.511).
+Hiçbir şey öğrenmeyen taban çizgisi bile **%73,5 accuracy** alıyor.
+Dengesiz veride accuracy tek başına yanıltıcıdır.
 
-<img src="karmasiklik_matrisi.png" width="400">
+### 🧪 Test Sonucu (k-NN)
 
+| Accuracy | Precision | Recall | F1 |
+|:---:|:---:|:---:|:---:|
+| 0.775 | 0.590 | 0.502 | 0.542 |
+
+Test sonuçları validation'a göre biraz düşük. Bu, modelin hiç görmediği veride beklenen bir durum.
 ## 🚀 Çalıştırma
 
 1. Repoyu indir veya notebook'u Colab'da aç
